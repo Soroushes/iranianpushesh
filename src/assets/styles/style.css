@@ -1,0 +1,38 @@
+@font-face {
+    font-family: 'iranianPushesh';
+    src: url('../fonts/font/IRANSans.eot');
+    src: url('../fonts/font/IRANSans.woff2') format('woff2'),
+    url('../fonts/font/IRANSans.woff') format('woff');
+}
+*{
+    font-family: iranianPushesh , serif !important;
+    font-size: 14px;
+    margin : 0 ;
+    padding : 0;
+    box-sizing: border-box;
+    color: #333 ;
+    text-decoration: none;
+    list-style: none;
+}
+html , body , #root{
+    height: 100%;
+    padding: 0 !important;
+}
+.home-background{
+    width: 100% ;
+    background-image: url("../images/Polygon1.png") , url("../images/Polygon2.png");
+    background-position: 100% 0 , 0 100% ;
+    background-repeat: no-repeat;
+}
+.area-input{
+    width: 70%;
+    height: 200px;
+    border: 1px solid #d8d8d8;
+    border-radius: 8px;
+}
+.area-input:focus {
+    outline: blue;
+}
+.css-1hy8mgt-MuiGrid-root>.MuiGrid-item {
+    padding-left: 32px;
+}
