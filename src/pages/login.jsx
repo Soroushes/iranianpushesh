@@ -75,6 +75,7 @@ const Login = ()=>{
                         value={password}
                         onChange={e=>setPassword(e.target.value)}
                         error={error}
+                        type={'password'}
                     />
                     {
                         error && <p style={{color : "red" , fontSize : 13}}>نام کاربری یا رمز عبور اشتباه است</p>

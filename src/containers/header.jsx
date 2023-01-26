@@ -12,14 +12,16 @@ import Avatar from '@mui/material/Avatar';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import {ExitIcon, FileAddIcon, FileListIcon, GetReportIcon, HomeIcon, UserIcon} from "../base/svg";
-import {Link} from "react-router-dom";
+import {Link, useLocation, useNavigate} from "react-router-dom";
 const Header = ()=>{
-
+    const location = useLocation() ;
+    const navigator = useNavigate() ;
     const token = localStorage.getItem('token') ;
     const [login , setLogin] = useState(!!token) ;
     const exit = ()=>{
         localStorage.removeItem('token') ;
         setLogin(false) ;
+        navigator('/') ;
     }
     const pages = [
         {
@@ -36,13 +38,13 @@ const Header = ()=>{
         },
         {
             name : "لیست پرونده ها",
-            link : "/" ,
+            link : "/lists" ,
             icon : <FileListIcon/>,
             key : 2
         } ,
         {
             name : "گزارشگیری",
-            link : "/" ,
+            link : "/reports" ,
             icon : <GetReportIcon/>,
             key : 3
         }
@@ -99,7 +101,7 @@ const Header = ()=>{
                         >
                             {pages.map((page) => (
                                 <MenuItem key={page.name} onClick={handleCloseNavMenu}>
-                                    <Typography textAlign="center"><Link to={page.link}>{page.name}</Link></Typography>
+                                    <Typography textAlign="center"><Link style={{color : location.pathname === page.link ? '#FA8735' : ""}} to={page.link}>{page.name}</Link></Typography>
                                 </MenuItem>
                             ))}
                         </Menu>
@@ -109,11 +111,11 @@ const Header = ()=>{
                     </Box>
                     <Box component={'ul'} sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex'} , gap : {sm : 5 , lg : 15}}}>
                         {pages.map((page) => (
-                            <Link to={page.link} key={page.key} style={{borderTop : !page.key ? "3px solid #FA8735" : ""}}>
+                            <Link to={page.link} key={page.key} style={{borderTop : location.pathname=== page.link ? "3px solid #FA8735" : ""}}>
                                 <Typography
                                     component={'li'}
                                     onClick={handleCloseNavMenu}
-                                    sx={{ my: 2, display: 'flex' , alignItems : "center" , color : !page.key ? '#FA8735' : ""}}
+                                    sx={{ my: 2, display: 'flex' , alignItems : "center" , color : location.pathname === page.link ? '#FA8735' : ""}}
                                 >
                                     <Typography component={'span'} sx={{ml : 1}}>{page.icon}</Typography>
                                     {

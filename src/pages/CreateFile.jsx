@@ -11,6 +11,7 @@ import priceDivider from "../helpers/priceDivider";
 import validator from "../helpers/validator";
 import createFile from "../queries/createFile";
 import priceDividerDecode from "../helpers/priceDividerDecode";
+import Header from "../containers/header";
 
 const CreateFile = ()=>{
     const dispatcher = useDispatch() ;
@@ -63,96 +64,99 @@ const CreateFile = ()=>{
     },[])
     return(
         data.loading ? <Loading/> :
-            <Container sx={{pt : 20}} maxWidth={'lg'}>
-                <Typography variant={'h5'} component={'h1'}>فرم بازدید</Typography>
-                <Box sx={{border : {md : '2px solid #eee'} , px : 2 , py : 5 , mt : 3 , borderRadius : 2}}>
-                    <Grid justifyContent={"space-between"} container>
-                        <Grid sx={{mb:5}} item xs={12} md={3.5}>
-                            <Typography sx={{mb : 3}}>شعبه ایرانیان پوشش *</Typography>
-                            <Select
-                                fullWidth
-                                labelId="demo-simple-select-label"
-                                id="demo-simple-select"
-                                value={data.branch.province.id}
-                            >
-                                <MenuItem value={data.branch.province.id}>{data.branch.name}</MenuItem>
-                            </Select>
-                        </Grid>
-                        <Grid sx={{mb:5}} item xs={12} md={3.5}>
-                            <Typography sx={{mb : 3}}>کارشناس * </Typography>
-                            <Select
-                                fullWidth
-                                labelId="demo-simple-select-label"
-                                id="demo-simple-select"
-                                value={data.adjuster.id}
-                            >
-                                <MenuItem value={data.adjuster.id}>{data.adjuster.full_name}</MenuItem>
-                            </Select>
-                        </Grid>
-                        <Grid sx={{mb:5}} item xs={12} md={3.5}>
-                            <Typography sx={{mb : 3}}>مبلغ خسارت ارزیابی شده * </Typography>
-                            <OutlinedInput
-                                id="outlined-adornment-weight"
-                                endAdornment={<InputAdornment position="end">ریال</InputAdornment>}
-                                aria-describedby="outlined-weight-helper-text"
-                                fullWidth
-                                value={priceDivider(price)}
-                                onChange={e=>setPrice(e.target.value)}
-                                error={priceDividerDecode(price) <= 100000000 && price ? true : false}
-                            />
-                            {
-                                priceDividerDecode(price) <= 100000000 && price ?
-                                    <Typography sx={{color : 'red' , fontSize : 12  }}>مبلغ وارد شده باید بیش از 10 میلیون تومان باشد . </Typography> : ""
-                            }
-                        </Grid>
-                        <Grid sx={{mb:5}} item xs={6} md={3.5}>
-                            <Typography sx={{mb : 3}}>تاریخ *</Typography>
-                            <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                <DesktopDatePicker
-                                    inputFormat="YYYY/MM/DD"
-                                    value={date}
-                                    onChange={value=>setDate(value)}
-                                    renderInput={(params) => <TextField fullWidth {...params} />}
+            <>
+                <Header/>
+                <Container sx={{pt : 10}} maxWidth={'lg'}>
+                    <Typography variant={'h5'} component={'h1'}>فرم بازدید</Typography>
+                    <Box sx={{border : {md : '2px solid #eee'} , px : 2 , py : 5 , mt : 3 , borderRadius : 2}}>
+                        <Grid justifyContent={"space-between"} container>
+                            <Grid sx={{mb:5}} item xs={12} md={3.5}>
+                                <Typography sx={{mb : 3}}>شعبه ایرانیان پوشش *</Typography>
+                                <Select
+                                    fullWidth
+                                    labelId="demo-simple-select-label"
+                                    id="demo-simple-select"
+                                    value={data.branch.province.id}
+                                >
+                                    <MenuItem value={data.branch.province.id}>{data.branch.name}</MenuItem>
+                                </Select>
+                            </Grid>
+                            <Grid sx={{mb:5}} item xs={12} md={3.5}>
+                                <Typography sx={{mb : 3}}>کارشناس * </Typography>
+                                <Select
+                                    fullWidth
+                                    labelId="demo-simple-select-label"
+                                    id="demo-simple-select"
+                                    value={data.adjuster.id}
+                                >
+                                    <MenuItem value={data.adjuster.id}>{data.adjuster.full_name}</MenuItem>
+                                </Select>
+                            </Grid>
+                            <Grid sx={{mb:5}} item xs={12} md={3.5}>
+                                <Typography sx={{mb : 3}}>مبلغ خسارت ارزیابی شده * </Typography>
+                                <OutlinedInput
+                                    id="outlined-adornment-weight"
+                                    endAdornment={<InputAdornment position="end">ریال</InputAdornment>}
+                                    aria-describedby="outlined-weight-helper-text"
+                                    fullWidth
+                                    value={priceDivider(price)}
+                                    onChange={e=>setPrice(e.target.value)}
+                                    error={priceDividerDecode(price) <= 100000000 && price ? true : false}
                                 />
-                            </LocalizationProvider>
-                        </Grid>
-                        <Grid sx={{mb:5}} item xs={6} md={3.5}>
-                            <Typography sx={{mb : 3}}>زمان *</Typography>
-                            <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                <TimePicker
-                                    value={time}
-                                    onChange={value => setTime(value)}
-                                    renderInput={(params) => <TextField fullWidth {...params} />}
+                                {
+                                    priceDividerDecode(price) <= 100000000 && price ?
+                                        <Typography sx={{color : 'red' , fontSize : 12  }}>مبلغ وارد شده باید بیش از 10 میلیون تومان باشد . </Typography> : ""
+                                }
+                            </Grid>
+                            <Grid sx={{mb:5}} item xs={6} md={3.5}>
+                                <Typography sx={{mb : 3}}>تاریخ *</Typography>
+                                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                    <DesktopDatePicker
+                                        inputFormat="YYYY/MM/DD"
+                                        value={date}
+                                        onChange={value=>setDate(value)}
+                                        renderInput={(params) => <TextField fullWidth {...params} />}
+                                    />
+                                </LocalizationProvider>
+                            </Grid>
+                            <Grid sx={{mb:5}} item xs={6} md={3.5}>
+                                <Typography sx={{mb : 3}}>زمان *</Typography>
+                                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                    <TimePicker
+                                        value={time}
+                                        onChange={value => setTime(value)}
+                                        renderInput={(params) => <TextField fullWidth {...params} />}
+                                    />
+                                </LocalizationProvider>
+                            </Grid>
+                            <Grid sx={{mb:5}} item xs={12} md={3.5}>
+                                <Typography sx={{mb : 3}}>مسافت رفت و برگشت طی شده * </Typography>
+                                <OutlinedInput
+                                    id="outlined-adornment-weight"
+                                    endAdornment={<InputAdornment position="end">Km</InputAdornment>}
+                                    aria-describedby="outlined-weight-helper-text"
+                                    fullWidth
+                                    value={distance}
+                                    onChange={e=>setDistance(e.target.value)}
+                                    error={distance >= 30}
+                                    type={'number'}
                                 />
-                            </LocalizationProvider>
+                                {
+                                    distance >= 30 ?
+                                        <Typography sx={{color : 'red' , fontSize : 12  }}>مسافت باید کتر از 30 کیلومتر باشد</Typography> : ""
+                                }
+                            </Grid>
+                            <Grid sx={{mb:5}} item xs={12} md={6}>
+                                <Typography sx={{mb : 3}}> توضیحات * </Typography>
+                                <textarea onChange={e=>setDescription(e.target.value)} value={description} className={'text-area'}></textarea>
+                            </Grid>
                         </Grid>
-                        <Grid sx={{mb:5}} item xs={12} md={3.5}>
-                            <Typography sx={{mb : 3}}>مسافت رفت و برگشت طی شده * </Typography>
-                            <OutlinedInput
-                                id="outlined-adornment-weight"
-                                endAdornment={<InputAdornment position="end">Km</InputAdornment>}
-                                aria-describedby="outlined-weight-helper-text"
-                                fullWidth
-                                value={distance}
-                                onChange={e=>setDistance(e.target.value)}
-                                error={distance >= 30}
-                                type={'number'}
-                            />
-                            {
-                                distance >= 30 ?
-                                    <Typography sx={{color : 'red' , fontSize : 12  }}>مسافت باید کتر از 30 کیلومتر باشد</Typography> : ""
-                            }
-                        </Grid>
-                        <Grid sx={{mb:5}} item xs={12} md={6}>
-                            <Typography sx={{mb : 3}}> توضیحات * </Typography>
-                            <textarea onChange={e=>setDescription(e.target.value)} value={description} className={'text-area'}></textarea>
-                        </Grid>
-                    </Grid>
-                </Box>
-                <Box sx={{textAlign : "left"}}>
-                    <Button onClick={onSubmit} size={'large'} sx={{backgroundColor : "#FA8735" , px:12 , color: 'white' , my : 3 , "&:hover" : {backgroundColor : "#FA8735" } }}>ذخیره</Button>
-                </Box>
-            </Container>
+                    </Box>
+                    <Box sx={{textAlign : "left"}}>
+                        <Button onClick={onSubmit} size={'large'} sx={{backgroundColor : "#FA8735" , px:12 , color: 'white' , my : 3 , "&:hover" : {backgroundColor : "#FA8735" } }}>ذخیره</Button>
+                    </Box>
+                </Container>
+            </>
     )
 }
 export default CreateFile ;
