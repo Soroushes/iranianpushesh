@@ -10,17 +10,19 @@ import Loading from "../base/Loading";
 import priceDivider from "../helpers/priceDivider";
 import validator from "../helpers/validator";
 import createFile from "../queries/createFile";
+import priceDividerDecode from "../helpers/priceDividerDecode";
 
 const CreateFile = ()=>{
     const dispatcher = useDispatch() ;
     const [date, setDate] = useState(new Date());
     const [time , setTime] = useState(new Date()) ;
-    const [price , setPrice] = useState(0) ;
-    const [distance , setDistance] = useState(0) ;
+    const [price , setPrice] = useState('') ;
+    const [description , setDescription] = useState('') ;
+    const [distance , setDistance] = useState('') ;
     const navigator = useNavigate() ;
     const data = useSelector(state => state.file) ;
     const onSubmit = async ()=>{
-        const validated = await validator(date , time , price , distance) ;
+        const validated = await validator(date , time , priceDividerDecode(price) , distance , description) ;
         if (!validated){
             alert('لطفا همه ی فیلد ها را پر کنید') ;
         }else {
@@ -38,7 +40,7 @@ const CreateFile = ()=>{
                          visit_date : yyyy + '-' + mm + '-' + dd,
                          visit_time : Ntime.toTimeString().split(' ')[0],
                          covered_distance : Number(distance) ,
-                         description : "test"  ,
+                         description ,
                          adjuster : data.adjuster.id ,
                          file : data.id ,
                          branch : data.branch.id
@@ -96,7 +98,12 @@ const CreateFile = ()=>{
                                 fullWidth
                                 value={priceDivider(price)}
                                 onChange={e=>setPrice(e.target.value)}
+                                error={priceDividerDecode(price) <= 100000000 && price ? true : false}
                             />
+                            {
+                                priceDividerDecode(price) <= 100000000 && price ?
+                                    <Typography sx={{color : 'red' , fontSize : 12  }}>مبلغ وارد شده باید بیش از 10 میلیون تومان باشد . </Typography> : ""
+                            }
                         </Grid>
                         <Grid sx={{mb:5}} item xs={6} md={3.5}>
                             <Typography sx={{mb : 3}}>تاریخ *</Typography>
@@ -120,7 +127,7 @@ const CreateFile = ()=>{
                             </LocalizationProvider>
                         </Grid>
                         <Grid sx={{mb:5}} item xs={12} md={3.5}>
-                            <Typography sx={{mb : 3}}>مسافت رفت و برگشت طی شده</Typography>
+                            <Typography sx={{mb : 3}}>مسافت رفت و برگشت طی شده * </Typography>
                             <OutlinedInput
                                 id="outlined-adornment-weight"
                                 endAdornment={<InputAdornment position="end">Km</InputAdornment>}
@@ -129,11 +136,16 @@ const CreateFile = ()=>{
                                 value={distance}
                                 onChange={e=>setDistance(e.target.value)}
                                 error={distance >= 30}
+                                type={'number'}
                             />
                             {
                                 distance >= 30 ?
                                     <Typography sx={{color : 'red' , fontSize : 12  }}>مسافت باید کتر از 30 کیلومتر باشد</Typography> : ""
                             }
+                        </Grid>
+                        <Grid sx={{mb:5}} item xs={12} md={6}>
+                            <Typography sx={{mb : 3}}> توضیحات * </Typography>
+                            <textarea onChange={e=>setDescription(e.target.value)} value={description} className={'text-area'}></textarea>
                         </Grid>
                     </Grid>
                 </Box>

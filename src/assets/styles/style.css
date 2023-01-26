@@ -36,3 +36,14 @@ html , body , #root{
 .css-1hy8mgt-MuiGrid-root>.MuiGrid-item {
     padding-left: 32px;
 }
+.text-area{
+    height: 130px;
+    width: 100%;
+    resize: none;
+    border-radius: 8px;
+    border: 1px solid #c4c4c4;
+    padding: 8px;
+}
+.text-area:focus {
+    outline: none;
+}
